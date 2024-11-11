@@ -1,8 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
-defineProps({ tasks: Array })
+defineProps({ tasks: Object })
 </script>
 
 <template>
@@ -32,15 +32,18 @@ defineProps({ tasks: Array })
                         <th scope="col" class="px-6 py-3">
                             User
                         </th>
+                        <th>
+                            Last activity completed
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="task in tasks" :key="task.id">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="task in tasks.data" :key="task.id">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ task.name.substring(0, 15) }}
+                            {{ task.name.substring(0, 14) }}
                         </th>
                         <td class="px-6 py-4">
-                           {{ task.description.substring(0, 15) }}
+                           {{ task.description.substring(0, 14) }}
                         </td>
                         <td class="px-6 py-4">
                             {{ task.init_date }}
@@ -49,15 +52,30 @@ defineProps({ tasks: Array })
                             {{ task.finish_date }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ task.status }}
+                            {{ task.status.substring(0, 15) }}
                         </td>
                         <td class="px-6 py-4">
                             {{ task.user.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ task.last_activity_completed?.substring(0, 18) }}
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <nav class="relative flex justify-center">
+        <template v-for="link in tasks.links" :key="link.label">
+            <Link
+                preserve-scroll
+                :href="link.url ?? ''"
+                v-html="link.label"
+                class="flex items-center justify-center px-3 py-2 text-sm rounded-lg text-gray-600"
+                :class="{ 'bg-gray-200': link.active, '!text-gray-300': !link.url }"
+            />
+        </template>
+    </nav>
 
     </AuthenticatedLayout>
 </template>

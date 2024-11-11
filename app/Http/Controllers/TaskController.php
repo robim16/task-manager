@@ -14,7 +14,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('user:id,name')->orderBy('init_date')->paginate(30);
+        $tasks = Task::with('user:id,name')
+            // ->withLastActivityCompleted()
+            ->withLastActivitiesCompleted()
+            ->orderByName()
+            ->paginate(30);
 
         return Inertia::render('Task/Index', [
             'tasks' => $tasks
