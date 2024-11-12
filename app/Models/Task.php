@@ -19,6 +19,11 @@ class Task extends Model
         return $this->hasMany(Activity::class);
     }
 
+    public function lastActivitiesCompleted()
+    {
+        return $this->hasOne(Activity::class, 'id', 'last_activity_completed_id');
+    }
+
     public function scopeOrderByName($query)
     {
         $query->orderBy('name')->orderBy('description');
@@ -39,10 +44,10 @@ class Task extends Model
 
     public function scopeWithLastActivitiesCompleted($query)
     {
-        $query->addSubSelect('last_activity_completed', Activity::select('name')
+        $query->addSubSelect('last_activity_completed_id', Activity::select('id')
             ->whereRaw('task_id = tasks.id')
             ->latest()
-        );
+        )->with('lastActivitiesCompleted');
     }
 
 }

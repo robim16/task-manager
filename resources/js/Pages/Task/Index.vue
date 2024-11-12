@@ -58,7 +58,8 @@ defineProps({ tasks: Object })
                             {{ task.user.name }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ task.last_activity_completed?.substring(0, 18) }}
+                            {{ task.last_activities_completed?.name.substring(0, 18) }}
+                            <span class="text-slate-500">({{ task.last_activities_completed?.created_at }})</span>
                         </td>
                     </tr>
                 </tbody>
