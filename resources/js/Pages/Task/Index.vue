@@ -2,15 +2,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
-defineProps({ tasks: Object })
+defineProps({ tasks: Object, count: Number })
 </script>
 
 <template>
 
     <Head title="Listado de tareas" />
     <AuthenticatedLayout>
-
+        
         <div class="relative overflow-x-auto">
+            <h1>Tasks <small class="text-text-slate-500">({{ count + ' found' }})</small></h1>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>

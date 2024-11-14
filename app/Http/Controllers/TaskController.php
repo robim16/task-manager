@@ -14,14 +14,19 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('user:id,name')
+        $tasks = Task::query()
+            ->with('user:id,name')
             // ->withLastActivityCompleted()
             ->withLastActivitiesCompleted()
             ->orderByName()
             ->paginate(30);
 
+        $count = Task::count();
+
+
         return Inertia::render('Task/Index', [
-            'tasks' => $tasks
+            'tasks' => $tasks,
+            'count' => $count
         ]);
     }
 
