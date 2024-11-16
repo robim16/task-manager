@@ -46,6 +46,7 @@ class Task extends Model
     {
         $query->addSubSelect('last_activity_completed_id', Activity::select('id')
             ->whereRaw('task_id = tasks.id')
+            ->where('completed', true)
             ->latest()
         )->with('lastActivitiesCompleted');
     }
